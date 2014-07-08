@@ -30,8 +30,23 @@ $(document).on('ready', function() {
 		var quote = $(this).prev().text()
 
 
-		$('#author-content').prepend('<h3>'+ author + '</h3>')
-		$('#author-content').prepend('<p>' + quote + '</p>')
+		// $('#author-content').prepend('<h3>'+ author + '</h3>')
+		// $('#author-content').prepend('<p>' + quote + '</p>')
+
+//		if($('#content').find('h3').text() === author) { alert("ding!")}
+
+
+		console.log(author)
+
+		$( "#content h3:contains('"+ author + "')" ).each(function(){
+
+
+			var author = $(this).text()
+			var quote = $(this).prev().text()
+			$('#author-content').prepend('<h3>'+ author + '</h3>')
+			$('#author-content').prepend('<p>' + quote + '</p>')
+
+		})
 
 
 	})
