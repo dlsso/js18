@@ -3,7 +3,6 @@
 $(document).on('ready', function() {
 	var closed = true	// Lets the program know the lightbox is closed
 
-
 	$(document).on('click', '#submit', function() {
 		// When submit button is clicked get the value of the quote and author and store them as variables
 		var quote = $('#quote-entry').val()
@@ -14,12 +13,31 @@ $(document).on('ready', function() {
 			$('#quote-entry').val('')
 			$('#author-entry').val('')
 
-			var quoteBlock = $('<div><p>' + quote + '</p><h3 class="author">~ '+ author + '</h3></div>')
+			var quoteBlock = $('<div class="rated"><p>' + quote + '</p><h3 class="author">~ '+ author + '</h3></div>')
 			$('#content').prepend(quoteBlock)
-			quoteBlock.raty();
+			quoteBlock.raty({ number: 3 });
 		}
 	});
-  
+
+	// When a user clicks a rating...
+	$(document).on('click', '.rated img', function() {
+		// Sort all the things
+		$(".rated").each(function() {
+			var score = $(this).find('input').val()
+			if(score == 1) { $('#content').prepend(this) }
+		})
+
+		$(".rated").each(function() {
+			var score = $(this).find('input').val()
+			if(score == 2) { $('#content').prepend(this) }
+		})
+
+		$(".rated").each(function() {
+			var score = $(this).find('input').val()
+			if(score == 3) { $('#content').prepend(this) }
+		})
+	})
+
 	// When author is clicked unhide lightbox
 	$(document).on('click', '.author', function() {
 
@@ -43,6 +61,5 @@ $(document).on('ready', function() {
 		$('#author-content').html('')
 		closed = true
 	})
-
 
 });
