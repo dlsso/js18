@@ -11,12 +11,14 @@ $(document).on('ready', function() {
 
 		var quote = $('#quote-entry').val()
 		var author = $('#author-entry').val()
+		if(quote === '' || author === ''){alert("Both fields required!")}
+		else{
 		$('#quote-entry').val('')
 		$('#author-entry').val('')
 
 		$('#content').prepend('<h3>~ '+ author + '</h3>')
 		$('#content').prepend('<p>' + quote + '</p>')
-		
+		}
 
 	});
   
