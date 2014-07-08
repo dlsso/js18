@@ -60,9 +60,6 @@ nav a{
 	font-size: 87%;
 }
 
-.full-width{
-	width: 100%;
-}
 
 .quote-entry {
 	width: 400px;
@@ -72,4 +69,19 @@ nav a{
 
 h3 {
 	margin-bottom: 40px;
+	margin-left: 20px;
+	font-style: italic;
+}
+
+.lightbox{
+	width: 100%;
+	height: 100%;
+	background: papayawhip;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.hidden{
+	display: none;
 }
