@@ -80,11 +80,51 @@ h3 {
 	width: 100%;
 	height: 100%;
 	background: papayawhip;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 }
 
-.hidden{
+.hidden {
 	display: none;
+}
+
+button {
+	background: #364;
+	color: white;
+	border: none;
+	padding: 5px;
+	border-radius: 4px;
+	margin-top: 10px;
+	box-shadow: 2px 2px 5px 1px #999
+}
+button:hover{
+	box-shadow: inset 0 25px 35px #475,2px 2px 5px 1px #999;
+
+}
+
+#author-entry{
+	margin-right: 10px;
+}
+
+.quotebox{
+	width: 500px;
+	height: 200px;
+	background: papayawhip;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -100px;
+	margin-left: -250px;
+	padding: 40px;
+	border-radius: 15px;
+	box-shadow: inset 0 0 22px #a97, 30px 30px 25px -5px #999
+}
+
+#close {
+	float: right;
+}
+
+#delete {
+	float: right;
 }
