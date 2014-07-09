@@ -15,7 +15,7 @@ $(document).on('ready', function() {
 			$('#quote-entry').val('')
 			$('#author-entry').val('')
 			// Create a varibale containing the quote, author and delete button
-			var quoteBlock = $('<div class="rated"><button id="delete">Remove Quote</button><p>' + quote + '</p><h3 class="author">~ '+ author + ' </h3></div>')
+			var quoteBlock = $('<div class="rated"><button class="delete">Remove Quote</button><p>' + quote + '</p><h3 class="author">~ '+ author + ' </h3></div>')
 			quoteBlocks.push(quoteBlock)
 			$('#content').prepend(quoteBlock)
 			quoteBlock.raty({ number: 5 });
@@ -73,6 +73,7 @@ $(document).on('ready', function() {
 
 		if(closed){
 			$('#quotebox').removeClass('hidden')
+			$('.delete').addClass('hidden')
 			var randomQuote = quoteBlocks[Math.floor(Math.random()*quoteBlocks.length)]
 			$('#quotebox-content').prepend(randomQuote.clone())
 			closed = false
@@ -88,26 +89,20 @@ $(document).on('ready', function() {
 	// When the close button is clicked hide the quotebox and empty it
 	$(document).on('click', '#close', function() {
 		$('#quotebox').addClass('hidden')
+		$('.delete').removeClass('hidden')
 		$('#quotebox-content').html('')
 		closed = true
 	})
 	// When the delete button is clicked remove that quote
-	$(document).on('click', '#delete', function() {
+	$(document).on('click', '.delete', function() {
 		var current = $(this).closest('.rated')
 		current.remove()
-		
+		// Chech each block and if quote doesn't match, keep it in the array
 		quoteBlocks = $.grep(quoteBlocks, function(block){
-
-			if(block.find('p').html() === current.find('p').html()) {
-
-			}
+			if(block.find('p').html() === current.find('p').html()) {}
 			else{return block}
 		})
 
 	})
 
 });
-
-// arr = jQuery.grep(arr, function( n, i ) {
-//   return ( n !== 5 && i > 4 );
-// });
