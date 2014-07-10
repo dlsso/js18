@@ -1,14 +1,13 @@
 
 // This program would be much better if written object oriented, would do it that way next time
+$('.rated').raty()		// Adds star rating to quotes already in the html
 var quote1 = $('<div class="rated"><button class="delete">Remove Quote</button><p>Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.</p><h3 class="author">~ John Woods</h3></div>')
 var quote2 = $('<div class="rated"><button class="delete">Remove Quote</button><p>Computer science education cannot make anybody an expert programmer any more than studying brushes and pigment can make somebody an expert painter.</p><h3 class="author">~ Eric S. Raymond</h3></div>')
 var quoteBlocks = [quote1, quote2]
 
-
 $(document).on('ready', function() {
 	var closed = true	// Lets the program know the lightbox is closed
-	$('.rated').raty()		// Adds star rating to quotes already in the html
-console.log(closed)
+
 	$(document).on('click', '#submit', function() {
 		// When submit button is clicked get the value of the quote and author and store them as variables
 		var quote = $('#quote-entry').val()
@@ -21,8 +20,8 @@ console.log(closed)
 			// Create a varibale containing the quote, author and delete button
 			var quoteBlock = $('<div class="rated"><button class="delete">Remove Quote</button><p>' + quote + '</p><h3 class="author">~ '+ author + ' </h3></div>')
 			quoteBlocks.push(quoteBlock)
-			$('#content').prepend(quoteBlock)
-			quoteBlock.raty();
+			// Add rating to a clone of that quote (so that rating doesn't get carried to random quote selector) and put it in the DOM 
+			$('#content').prepend(quoteBlock.clone().raty())
 		}
 	});
 
@@ -54,7 +53,6 @@ console.log(closed)
 			if(score == 5) { $('#content').prepend(this) }
 		})
 	})
-console.log(closed)
 
 	// When author is clicked unhide lightbox
 	$(document).on('click', '.author', function() {
@@ -73,17 +71,18 @@ console.log(closed)
 			})
 		}
 	})
+
 	// When random quote is clicked unhide the quotebox, hide delete button, get a random quote from the quoteBlocks array and add it to the box
 	$(document).on('click', '#randomQuote', function() {
 		if(closed){
 			$('#quotebox').removeClass('hidden')
-			$('.delete').addClass('hidden')
+
 			var randomQuote = quoteBlocks[Math.floor(Math.random()*quoteBlocks.length)]
 			$('#quotebox-content').prepend(randomQuote.clone())
+			$('.delete').addClass('hidden')
 			closed = false
 		}
 	})
-console.log(closed)
 
 	// When the back button is clicked re-hide the lightbox and empty it
 	$(document).on('click', '#back', function() {
@@ -91,6 +90,7 @@ console.log(closed)
 		$('#author-content').html('')
 		closed = true
 	})
+
 	// When the close button is clicked hide the quotebox and empty it
 	$(document).on('click', '#close', function() {
 		$('#quotebox').addClass('hidden')
@@ -98,26 +98,26 @@ console.log(closed)
 		$('#quotebox-content').html('')
 		closed = true
 	})
+
 	// When the delete button is clicked remove that quote, any other undo buttons, and make a new undo button
 	$(document).on('click', '.delete', function() {
 		var current = $(this).closest('.rated')
 		lastBlock = current.clone()
 		$('.content').find('#undo').remove()
-		current.html('<button id="undo">Undo</button>')
+
 		// Check each block and if quote doesn't match, keep it in the array
 		quoteBlocks = $.grep(quoteBlocks, function(block){
 			if(block.find('p').html() === current.find('p').html()) {}
 			else{return block}
 		})
-console.log(closed)
 
+		current.html('<button id="undo">Undo</button>')
 	})
+	
 	// When the undo button is clicked add the last deleted item back
 	$(document).on('click', '#undo', function() {
 		quoteBlocks.push(lastBlock)
 		$(this).closest('.rated').html(lastBlock)
 	})
-	console.log(closed)
-	setInterval(function() { console.log(closed) }, 2000)
 
 });
