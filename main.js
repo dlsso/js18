@@ -1,9 +1,12 @@
 
-	var quoteBlocks = []
+// This program would be much better if written object oriented, would do it that way next time
+
+var quoteBlocks = []
+var closed = true	// Lets the program know the lightbox is closed
 
 $(document).on('ready', function() {
-	var closed = true	// Lets the program know the lightbox is closed
 
+	$('.rated').raty()		// Adds star rating to quotes already in the html
 
 	$(document).on('click', '#submit', function() {
 		// When submit button is clicked get the value of the quote and author and store them as variables
@@ -18,7 +21,7 @@ $(document).on('ready', function() {
 			var quoteBlock = $('<div class="rated"><button class="delete">Remove Quote</button><p>' + quote + '</p><h3 class="author">~ '+ author + ' </h3></div>')
 			quoteBlocks.push(quoteBlock)
 			$('#content').prepend(quoteBlock)
-			quoteBlock.raty({ number: 5 });
+			quoteBlock.raty();
 		}
 	});
 
@@ -68,9 +71,8 @@ $(document).on('ready', function() {
 			})
 		}
 	})
-
+	// When random quote is clicked unhide the quotebox, hide delete button, get a random quote from the quoteBlocks array and add it to the box
 	$(document).on('click', '#randomQuote', function() {
-
 		if(closed){
 			$('#quotebox').removeClass('hidden')
 			$('.delete').addClass('hidden')
@@ -93,16 +95,23 @@ $(document).on('ready', function() {
 		$('#quotebox-content').html('')
 		closed = true
 	})
-	// When the delete button is clicked remove that quote
+	// When the delete button is clicked remove that quote, any other undo buttons, and make a new undo button
 	$(document).on('click', '.delete', function() {
 		var current = $(this).closest('.rated')
-		current.remove()
-		// Chech each block and if quote doesn't match, keep it in the array
+		lastBlock = current.clone()
+		$('.content').find('#undo').remove()
+		current.html('<button id="undo">Undo</button>')
+		// Check each block and if quote doesn't match, keep it in the array
 		quoteBlocks = $.grep(quoteBlocks, function(block){
 			if(block.find('p').html() === current.find('p').html()) {}
 			else{return block}
 		})
 
+	})
+	// When the undo button is clicked add the last deleted item back
+	$(document).on('click', '#undo', function() {
+		quoteBlocks.push(lastBlock)
+		$(this).closest('.rated').html(lastBlock)
 	})
 
 });
